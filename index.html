@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shahid | Video Editor & Designer</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+
+  <style>
+  /* --- THEME VARIABLES --- */
+  :root {
+      --bg-dark: #050511;
+      --bg-card: #0f1021;
+      --bg-glass: rgba(15, 16, 33, 0.95);
+      --text-main: #ffffff;
+      --text-body: #b3b3cc;
+      --primary-color: #6d28d9;
+      --accent-glow: #8b5cf6;
+      --main-gradient: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  
+  body {
+      background-color: var(--bg-dark);
+      background-image: radial-gradient(circle at 10% 20%, rgba(109, 40, 217, 0.15) 0%, transparent 25%),
+                        radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.15) 0%, transparent 25%);
+      font-family: 'Inter', sans-serif;
+      color: var(--text-body);
+      margin: 0;
+  }
+
+  /* --- HEADER --- */
+  .main-header {
+    padding: 1rem 5%;
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--bg-glass); backdrop-filter: blur(12px);
+    position: sticky; top: 0; z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .logo { font-weight: 900; font-size: 1.5rem; color: #fff; letter-spacing: 1px; z-index: 1001; }
+  
+  /* Desktop Nav */
+  .nav-menu ul { list-style: none; display: flex; gap: 2rem; margin: 0; }
+  .nav-menu a { color: var(--text-main); font-weight: 600; text-decoration: none; transition: 0.3s; }
+  .nav-menu a:hover { color: var(--accent-glow); }
+
+  /* Hamburger Icon */
+  .nav-toggle { 
+      display: none; background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; z-index: 1001;
+  }
+
+  /* Mobile Full Screen Menu */
+  .mobile-nav-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      background: var(--bg-dark);
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      z-index: 1000;
+      transform: translateY(-100%); /* Hidden by default */
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .mobile-nav-overlay.active { transform: translateY(0); } /* Show menu */
+  
+  .mobile-nav-links { list-style: none; text-align: center; padding: 0; }
+  .mobile-nav-links li { margin: 2rem 0; }
+  .mobile-nav-links a { font-size: 1.5rem; font-weight: 700; color: #fff; text-decoration: none; }
+
+  /* --- HERO SECTION --- */
+  .hero-section {
+    padding: 6rem 5% 4rem 5%;
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 3rem;
+  }
+  .hero-content { flex: 1; }
+  .hero-title { font-size: 3.5rem; font-weight: 900; color: #fff; line-height: 1.1; margin-bottom: 1rem; }
+  .hero-title span { background: var(--main-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero-subtitle { font-size: 1.2rem; margin-bottom: 2rem; max-width: 500px; }
+  
+  .hero-btns a {
+      text-decoration: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 700; margin-right: 10px; display: inline-block;
+  }
+  .btn-primary { background: var(--main-gradient); color: #fff; box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); }
+  .btn-secondary { border: 1px solid rgba(255,255,255,0.3); color: #fff; }
+
+  .hero-img-box {
+      flex: 1;
+      display: flex; 
+      justify-content: center; position: relative;
+  }
+  .hero-img-box img {
+      width: 100%; height: 100%; object-fit: cover;
+      border-radius: 50%;
+      
+     
+  }
+
+  /* --- SECTIONS COMMON --- */
+  .section-container { padding: 4rem 5%; max-width: 1200px; margin: 0 auto; }
+  .section-title { font-size: 2.5rem; font-weight: 800; color: #fff; text-align: center; margin-bottom: 2rem; }
+  
+  /* Tabs UI */
+  .tabs-wrapper { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-bottom: 3rem; }
+  .tab-btn {
+      background: transparent; border: 1px solid rgba(255,255,255,0.2);
+      color: var(--text-body); padding: 0.8rem 2.5rem; border-radius: 50px;
+      font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.3s;
+  }
+  .tab-btn.active {
+      background: var(--main-gradient); color: #fff; border-color: transparent;
+      box-shadow: 0 0 15px rgba(124, 58, 237, 0.5);
+  }
+  
+  .tab-content { display: none; animation: fadeIn 0.4s ease-in-out; }
+  .tab-content.active { display: block; }
+  
+  .category-head {
+      font-size: 1.4rem; color: #fff; margin: 3rem 0 1.5rem 0;
+      border-left: 4px solid var(--primary-color); padding-left: 1rem;
+      display: flex; align-items: center; gap: 10px;
+  }
+
+  /* --- GRIDS & CARDS --- */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+
+  .media-card {
+      background: #000; border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.3s ease;
+      position: relative;
+  }
+  .media-card video, .media-card img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .media-card:hover {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 25px rgba(124, 58, 237, 0.3);
+      filter: brightness(1.1);
+  }
+
+  .ratio-9-16 { aspect-ratio: 9/16; }
+  .ratio-16-9 { aspect-ratio: 16/9; }
+  .ratio-1-1  { aspect-ratio: 1/1; }
+
+  /* ========================================
+     TESTIMONIALS (FIXED - SIDE BUTTONS)
+     ======================================== */
+  .testimonial-section {
+     
+      padding: 5rem 8%;
+      
+      max-width: 1200px; margin: 3rem auto;
+      position: relative; overflow: hidden;
+      background: linear-gradient(to bottom, transparent, var(--bg-card));
+      border-radius: 30px;
+
+  }
+  
+  .testimonial-slider-wrapper {
+      
+      position: relative; 
+      width: 100%; 
+      display: flex; align-items: center;
+      
+  }
+  
+  .testimonial-track {
+      display: flex; gap: 2rem; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); width: 100%;
+  }
+  
+  .testimonial-card {
+      min-width: calc(33.33% - 1.35rem); /* 3 cards desktop */
+      max-width: calc(33.33% - 1.35rem); 
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px; padding: 2rem;
+      display: flex; flex-direction: column; justify-content: space-between;
+      height: 450px; 
+      backdrop-filter: blur(10px);
+      flex-shrink: 0;
+      
+  }
+  
+  .t-content p { font-style: italic; font-size: 1rem; line-height: 1.6; color: #ccc; }
+  .t-author { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;}
+  .t-avatar { width: 45px; height: 45px; background: var(--main-gradient); border-radius: 50%; }
+  .t-info h4 { color: #fff; margin: 0; font-size: 1rem; }
+  .t-info span { font-size: 0.85rem; color: var(--primary-color); }
+
+  /* Slider Buttons (Fixed) */
+  .slider-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: var(--bg-card); border: 1px solid var(--primary-color); color: #fff;
+      width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10;
+      display: flex; align-items: center; justify-content: center; transition: all 0.3s;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      display: none;
+  }
+  .slider-btn:hover { background: var(--primary-color); box-shadow: 0 0 20px var(--accent-glow); }
+  .slider-btn.prev { left: -15px; }
+  .slider-btn.next { right: -15px; }
+
+
+  /* --- CONTACT --- */
+  .contact-btn {
+      display: flex; align-items: center; gap: 10px; padding: 1rem 2rem;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; color: #fff; text-decoration: none; font-weight: 700; transition: 0.3s;
+  }
+  .contact-btn:hover { background: var(--main-gradient); transform: translateY(-3px); }
+  .contact-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; flex-wrap: wrap; }
+
+  /* --- MOBILE RESPONSIVE --- */
+  @media (max-width: 900px) {
+      .hero-section { flex-direction: column-reverse; text-align: center; padding-top: 4rem; }
+      .hero-img-box img { width: 250px; height: 250px; }
+      .hero-title { font-size: 2.5rem; }
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .nav-menu { display: none; }
+      .nav-toggle { display: block; }
+      
+      /* Mobile Slider */
+      .testimonial-card { min-width: 100%; }
+      .slider-btn { display: none; } /* Hide buttons on mobile, swipe/auto only */
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+<header class="main-header">
+  <div class="logo">M.S</div>
+  
+  <nav class="nav-menu">
+    <ul>
+      <li><a href="#video-work">Videos</a></li>
+      <li><a href="#design-work">Designs</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <button class="nav-toggle" onclick="toggleMenu()">
+    <i class="fa fa-bars"></i>
+  </button>
+</header>
+
+<div class="mobile-nav-overlay" id="mobileNav">
+    <ul class="mobile-nav-links">
+        <li><a href="#video-work" onclick="toggleMenu()">Videos</a></li>
+        <li><a href="#design-work" onclick="toggleMenu()">Designs</a></li>
+        <li><a href="#testimonials" onclick="toggleMenu()">Reviews</a></li>
+        <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" onclick="toggleMenu()" style="display:block; position:absolute; top:20px; right:20px;">
+        <i class="fa fa-times"></i>
+    </button>
+</div>
+
+<section class="hero-section">
+  <div class="hero-content" data-aos="fade-right">
+      <h1 class="hero-title">Edits That Build Authority <br><span>Not Just Views.</span></h1>
+      <p class="hero-subtitle">Elevate your personal brand with premium video editing. I help creators and experts command attention and build lasting trust.
+</p>
+      <div class="hero-btns">
+          <a href="#contact" class="btn-primary">Hire Me</a>
+          <a href="#video-work" class="btn-secondary">My Work</a>
+      </div>
+  </div>
+  
+  <div class="hero-img-box" data-aos="fade-left">
+      <img src="shahid.png" alt="Shahid Profile" >
+  </div>
+</section>
+
+<section id="video-work" class="section-container">
+    <h2 class="section-title">Video Editing</h2>
+
+    <div class="tabs-wrapper">
+        <button class="tab-btn active" onclick="openVideoTab('short-form', this)">Short Form</button>
+        <button class="tab-btn" onclick="openVideoTab('long-form', this)">Long Form</button>
+    </div>
+
+    <div id="short-form" class="tab-content active video-tab">
+        <div class="category-head"><i class="fa fa-user"></i> Talking Head</div>
+        <div class="grid-3">
+            <div class="media-card ratio-9-16"><video src="talkinghead1.mp4" controls controlsList="nodownload"
+            oncontextmenu="return false;" 
+    style="-webkit-touch-callout: none;"
+
+            playsinline
+
+            ></video></div>
+            <div class="media-card ratio-9-16"><video src="talkinghead2.mp4" controls controlsList="nodownload"
+            oncontextmenu="return false;" 
+    style="-webkit-touch-callout: none;"
+
+            playsinline></video></div>
+            <div class="media-card ratio-9-16"><video src="talkinghead3.mp4" controls controlsList="nodownload"
+            oncontextmenu="return false;" 
+    style="-webkit-touch-callout: none;"
+playsinline></video></div>
+        </div>
+
+        <div class="category-head"><i class="fa fa-mask"></i> Faceless</div>
+        <div class="grid-3">
+            <div class="media-card ratio-9-16"><video src="faceless1.mp4" controls controlsList="nodownload"
+            oncontextmenu="return false;" 
+    style="-webkit-touch-callout: none;"
+playsinline></video></div>
+            <div class="media-card ratio-9-16"><video src="faceless2.mp4" controls controlsList="nodownload"
+            oncontextmenu="return false;" 
+    style="-webkit-touch-callout: none;"
+playsinline></video></div>
+            <div class="media-card ratio-9-16"><video src="faceless3.mp4" controls controlsList="nodownload"
+            oncontextmenu="return false;" 
+    style="-webkit-touch-callout: none;"
+playsinline></video></div>
+        </div>
+    </div>
+
+    <div id="long-form" class="tab-content video-tab">
+        <div class="category-head"><i class="fa fa-play"></i> Long Form Video</div>
+        <div class="grid-3">
+            <div class="media-card ratio-16-9"><video src="yt_1.mp4" controls controlsList="nodownload"
+            oncontextmenu="return false;" 
+    style="-webkit-touch-callout: none;"
+playsinline></video></div>
+            <div class="media-card ratio-16-9"><video src="yt_2.mp4" controls controlsList="nodownload"
+            oncontextmenu="return false;" 
+    style="-webkit-touch-callout: none;"
+playsinline></video></div>
+            <div class="media-card ratio-16-9"><video src="yt_3.mp4" controls controlsList="nodownload"
+            oncontextmenu="return false;" 
+    style="-webkit-touch-callout: none;"
+
+playsinline></video></div>
+        </div>
+    </div>
+</section>
+
+<section id="design-work" class="section-container">
+    <h2 class="section-title">Graphic Design</h2>
+
+    <div class="tabs-wrapper">
+        <button class="tab-btn active" onclick="openDesignTab('reel-covers', this)">Reel Covers</button>
+        <button class="tab-btn" onclick="openDesignTab('thumbnails', this)">Thumbnails</button>
+        <button class="tab-btn" onclick="openDesignTab('ad-creative', this)">Ad Creatives</button>
+    </div>
+
+    <div id="reel-covers" class="tab-content active design-tab">
+        <div class="category-head"><i class="fa fa-mobile-alt"></i> Reel Covers</div>
+        <div class="grid-3">
+            <div class="media-card ratio-9-16"><img src="reel_cover_1.png" alt="Reel Cover 1"></div>
+            <div class="media-card ratio-9-16"><img src="reel_cover_2.png" alt="Reel Cover 2"></div>
+            <div class="media-card ratio-9-16"><img src="reel_cover_3.png" alt="Reel Cover 3"></div>
+        </div>
+    </div>
+
+    <div id="thumbnails" class="tab-content design-tab">
+        <div class="category-head"><i class="fa fa-play"></i> YouTube Thumbnails</div>
+        <div class="grid-2">
+            <div class="media-card ratio-16-9"><img src="thumbnail_1.png" alt="YT Thumb 1"></div>
+            <div class="media-card ratio-16-9"><img src="thumbnail_2.png" alt="YT Thumb 2"></div>
+            <div class="media-card ratio-16-9"><img src="thumbnail_3.png" alt="YT Thumb 3"></div>
+        </div>
+    </div>
+
+    <div id="ad-creative" class="tab-content design-tab">
+        <div class="category-head"><i class="fa fa-bullhorn"></i> High CTR Ads</div>
+        <div class="grid-3">
+            <div class="media-card"><img src="ad1.png" alt="Ad 1"></div>
+            <div class="media-card"><img src="ad2.png" alt="Ad 2"></div>
+            <div class="media-card"><img src="ad3.png" alt="Ad 3"></div>
+        </div>
+    </div>
+</section>
+
+
+<section id="testimonials" class="testimonial-section">
+    <h2 class="section-title">What Clients Say</h2>
+    <div class="testimonial-slider-wrapper">
+        
+        <button class="slider-btn prev" id="prevBtn"><i class="fa fa-chevron-left"></i></button>
+        
+        <div class="testimonial-track" id="testimonialTrack">
+            
+            <div class="testimonial-card">
+                <div class="t-content">
+                    <i class="fa fa-quote-left" style="color:var(--primary-color); font-size:1.5rem; margin-bottom:10px;"></i>
+                    <p>"I really appreciate how Shahid understood my requirements before starting. His questions and editing style made a big difference. The final result exceeded my expectations.
+Keep it up, Shahid!"</p>
+                </div>
+                <div class="t-author">
+                    <div class="t-avatar"><img src="simran.png" alt="" class="t-avatar"></div>
+                    <div class="t-info"><h4>Simram Nazz</h4><span> Graphics Designer</span></div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="t-content">
+                     <i class="fa fa-quote-left" style="color:var(--primary-color); font-size:1.5rem; margin-bottom:10px;"></i>
+                    <p>"Shahid is doing a good job with my edits. His basics are strong and he takes feedback positively. With a little more polishing, he can become even better."</p>
+                </div>
+                <div class="t-author">
+                    <div class="t-avatar"><img src="riyanshi.png" alt="" class="t-avatar"></div>
+                    <div class="t-info"><h4>Riyanshi Paswaan </h4><span>Content Creator</span></div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="t-content">
+                     <i class="fa fa-quote-left" style="color:var(--primary-color); font-size:1.5rem; margin-bottom:10px;"></i>
+                    <p>"Great work Shahid Really happy with the quality looking forward to more amazing work like this."</p>
+                </div>
+                <div class="t-author">
+                    <div class="t-avatar"><img src="harshit.png" alt="" class="t-avatar"></div>
+                    <div class="t-info"><h4>Harshit Rai</h4><span> Digital Marketer</span></div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="t-content">
+                     <i class="fa fa-quote-left" style="color:var(--primary-color); font-size:1.5rem; margin-bottom:10px;"></i>
+                    <p>"Your cover designs are seriously impressive, Shahid. I’m really looking forward to working with you long term and creating some great stuff together"</p>
+                </div>
+                <div class="t-author">
+                    <div class="t-avatar"><img src="bitthal.png" alt="" class="t-avatar"></div>
+                    <div class="t-info"><h4>Bitthal Mahashivratri </h4><span>SM Manager</span></div>
+                </div>
+            </div>
+
+        </div>
+        
+        <button class="slider-btn next" id="nextBtn"><i class="fa fa-chevron-right"></i></button>
+
+    </div>
+</section>
+
+
+<section id="contact" class="section-container" style="text-align: center;">
+    <h2 class="section-title">Let's Work Together</h2>
+    <p style="color:var(--text-body); margin-bottom:2rem;">Stop ignoring the potential of your content.</p>
+    <div class="contact-links">
+        <a href="mailto:empervix@gmail.com" class="contact-btn"><i class="fa fa-envelope"></i> Email Me</a>
+        <a href="https://instagram.com/empervix" target="_blank" class="contact-btn"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://wa.me/7499074966" target="_blank" class="contact-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+    </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+    AOS.init({ once: true, duration: 800 });
+
+    // --- MOBILE MENU TOGGLE ---
+    function toggleMenu() {
+        document.getElementById('mobileNav').classList.toggle('active');
+    }
+
+    // --- VIDEO TABS ---
+    function openVideoTab(tabId, btn) {
+        document.querySelectorAll('.video-tab').forEach(t => t.classList.remove('active'));
+        btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    // --- DESIGN TABS ---
+    function openDesignTab(tabId, btn) {
+        document.querySelectorAll('.design-tab').forEach(t => t.classList.remove('active'));
+        btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    // --- TESTIMONIAL SLIDER LOGIC ---
+    const track = document.getElementById('testimonialTrack');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    let currentIndex = 0;
+
+    function getCardsPerView() {
+        return window.innerWidth >= 900 ? 3 : 1;
+    }
+
+    function updateSlider() {
+        const cards = document.querySelectorAll('.testimonial-card');
+        const perView = getCardsPerView();
+        
+        if (currentIndex < 0) currentIndex = cards.length - perView;
+        if (currentIndex > cards.length - perView) currentIndex = 0;
+
+        const movePercent = (109 / perView) * currentIndex;
+        track.style.transform = `translateX(-${movePercent}%)`;
+    }
+
+    nextBtn.addEventListener('click', () => { currentIndex++; updateSlider(); });
+    prevBtn.addEventListener('click', () => { currentIndex--; updateSlider(); });
+    window.addEventListener('resize', () => { currentIndex = 0; updateSlider(); });
+    
+    // Auto Play
+    setInterval(() => { currentIndex++; updateSlider(); }, 5000);
+    
+</script>
+
+<script>
+  // Sabhi images aur videos pe long-press / right-click disable karne ke liye
+  document.addEventListener('contextmenu', function(event) {
+    if (event.target.tagName === 'IMG' || event.target.tagName === 'VIDEO') {
+      event.preventDefault();
+    }
+  });
+</script>
+
+
+
+</body>
+</html>
